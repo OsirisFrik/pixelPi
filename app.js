@@ -1,30 +1,28 @@
 'use strict'
 
 var pixel = require("node-pixel");
-var five = require("johnny-five");
+var wpi = require('wiring-pi');
 
-var board = new five.Board(opts);
-var strip = null;
+wpi.setup('wpi');
+wpi.pinMode(7, wpi.OUTPUT);
 
-board.on("ready", function() {
+var ledOn = false;
 
-  strip = new pixel.Strip({
-    board: this,
-    controller: "FIRMATA",
-    strips: [
-      {
-        pin: 7,
-        length: 3
-      }
-    ], // this is preferred form for definition
-    gamma: 2.8, // set to a gamma that works nicely for WS2812
-  });
-
-  strip.on("ready", function() {
-    strip.pixel(0).color("#000");
-    strip.pixel(1).color("red");
-    strip.shift(1, pixel.FORWARD, true);
-    strip.pixel(1).color; // will now be nothing
-    strip.pixel(2).color; // will now be red.
-  });
+var strip = new pixel.Strip({
+  board: this,
+  strips: [{pin: 7, length: 3}]
 });
+
+var p = strip.pixel(0);
+p.color('#0000FF');
+
+setInterval(function () {
+  if (!ledOn) {
+    strip.show();
+    ledOn = false;
+  } else {
+    p.off();
+    p.color();
+    strip.show()
+  }
+}, 10000);
