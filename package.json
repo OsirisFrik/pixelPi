@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/OsirisFrik/pixelPi#readme",
   "dependencies": {
-    "serialport": "^6.0.0"
+    "node-pixel": "^0.9.3",
+    "wiring-pi": "wiring-pi"
   }
 }

@@ -1,16 +1,21 @@
 'use strict'
 
-var SerialPort = require('serialport');
-var port = new SerialPort('/dev/tty-usbserial1');
+pixel = require("node-pixel");
+five = require("johnny-five");
 
-port.write('main screen turn on', function(err) {
-  if (err) {
-    return console.log('Error on write: ', err.message);
-  }
-  console.log('message written');
+var board = new five.Board(opts);
+var strip = null;
+
+board.on("ready", function() {
+
+    strip = new pixel.Strip({
+        board: this,
+        controller: "FIRMATA",
+        strips: [ {pin: 7, length: 3}, ], // this is preferred form for definition
+        gamma: 2.8, // set to a gamma that works nicely for WS2812
+    });
+
+    strip.on("ready", function() {
+        // do stuff with the strip here.
+    });
 });
-
-// Open errors will be emitted as an error event
-port.on('error', function(err) {
-  console.log('Error: ', err.message);
-})
