@@ -1,7 +1,7 @@
 'use strict'
 
-pixel = require("node-pixel");
-five = require("johnny-five");
+var pixel = require("node-pixel");
+var five = require("johnny-five");
 
 var board = new five.Board(opts);
 var strip = null;
